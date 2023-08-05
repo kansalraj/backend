@@ -1,5 +1,5 @@
-const Wallet = require('../models/walletModel');
-const { ObjectId } = require('mongoose').Types;
+const Wallet = require("../models/walletModel");
+const { ObjectId } = require("mongoose").Types;
 
 exports.setupWallet = async (req, res) => {
   try {
@@ -7,19 +7,17 @@ exports.setupWallet = async (req, res) => {
     const wallet = new Wallet({ balance, name });
     await wallet.save();
 
-    // const transactionId = 'your-transaction-id-generation-logic';
     const response = {
       id: wallet._id,
       balance: wallet.balance,
-    //   transactionId,
       name: wallet.name,
       date: new Date(),
     };
 
     res.status(200).json(response);
   } catch (error) {
-    console.error('Error setting up wallet:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error setting up wallet:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -30,7 +28,7 @@ exports.getWallet = async (req, res) => {
     const wallet = await Wallet.findById(id);
 
     if (!wallet) {
-      return res.status(404).json({ error: 'Wallet not found' });
+      return res.status(404).json({ error: "Wallet not found" });
     }
 
     const timestamp = new ObjectId(id).getTimestamp();
@@ -44,7 +42,7 @@ exports.getWallet = async (req, res) => {
 
     res.status(200).json(response);
   } catch (error) {
-    console.error('Error fetching wallet:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error fetching wallet:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };

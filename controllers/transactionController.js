@@ -1,5 +1,5 @@
-const Transaction = require('../models/transactionModel');
-const Wallet = require('../models/walletModel');
+const Transaction = require("../models/transactionModel");
+const Wallet = require("../models/walletModel");
 
 exports.creditOrDebit = async (req, res) => {
   try {
@@ -8,7 +8,7 @@ exports.creditOrDebit = async (req, res) => {
 
     const wallet = await Wallet.findById(walletId);
     if (!wallet) {
-      return res.status(404).json({ error: 'Wallet not found' });
+      return res.status(404).json({ error: "Wallet not found" });
     }
 
     const newBalance = wallet.balance + amount;
@@ -18,19 +18,19 @@ exports.creditOrDebit = async (req, res) => {
       amount,
       balance: newBalance,
       description,
-      type: amount >= 0 ? 'CREDIT' : 'DEBIT',
+      type: amount >= 0 ? "CREDIT" : "DEBIT",
     });
 
     for (let i = 0; i < 5; i++) {
       try {
         const updatedWallet = await Wallet.findOneAndUpdate(
-          { _id: walletId, version: wallet.version }, 
+          { _id: walletId, version: wallet.version },
           { balance: newBalance },
           { new: true }
         );
 
         if (!updatedWallet) {
-          throw new Error('Version mismatch');
+          throw new Error("Version mismatch");
         }
 
         await transaction.save();
@@ -47,14 +47,12 @@ exports.creditOrDebit = async (req, res) => {
       }
     }
 
-    throw new Error('Failed to process transaction due to race condition');
+    throw new Error("Failed to process transaction due to race condition");
   } catch (error) {
-    console.error('Error processing transaction:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error processing transaction:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
-
-
 
 // Fetch transactions
 exports.getTransactions = async (req, res) => {
@@ -68,7 +66,7 @@ exports.getTransactions = async (req, res) => {
 
     res.status(200).json(transactions);
   } catch (error) {
-    console.error('Error fetching transactions:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error fetching transactions:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
