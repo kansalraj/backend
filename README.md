@@ -1,4 +1,3 @@
-```
 # Wallet System Backend
 
 This repository contains the backend service for a simple Wallet System that supports setting up a wallet, credit/debit transactions, fetching transactions, and getting wallet details.
@@ -147,4 +146,3 @@ Contributions are welcome! If you find any issues or have suggestions for improv
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
-```
